@@ -4,6 +4,7 @@
 
 File Data;                                        // declaration for the data file as Data
 int scale = 1000;                                 // accelerometer range  expressed as +/- 1000 milli-g
+int rate = 2;                                     // How many samples per second to take (Hz)
 float SX, SY, SZ;                                 // Scaled values for each axis
 boolean micro_is_5V = true;
 
@@ -58,6 +59,5 @@ void loop()  {                                    // loop runs indefinitely
   Data.print("Z:  "); Data.print(SZ); Data.print("   ");
   Data.print("Net g:  "); Data.println(sqrt(SX*SX+SY*SY+SZ*SZ)/scale);
   Data.close();                                   // closes file, saves data after each writing cycle
-  delay(500);                                     // 500 milliseconds = 2 Hz sampling frequency
-
+  delay(rate);
 }
