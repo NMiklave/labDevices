@@ -1,5 +1,0 @@
-Features To Add:
-
-- Add a setup calculation to set the delay based on a given frequency
-- Additional waveforms (low priority)
-
