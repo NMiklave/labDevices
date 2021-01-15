@@ -28,7 +28,7 @@ void loop()  {
   rawZ = analogRead(A2);                //   but accelerometer only outputs 0-3.3V
 
   if (micro_is_5V) {                    // microcontroller runs @ 5V
-    SX = map(rawX, 0, 675, -scale, scale);  // Accel only outputs up to 3.3V, so board reads max binary
+    SX = map(rawX, 273, 410, -1000, 1000);  // Accel only outputs up to 3.3V, so board reads max binary
     SY = map(rawY, 0, 675, -scale, scale);  //   of (3.3/5) * 1023 = 675.18 --> 675
     SZ = map(rawZ, 281, 418, -1000, 1000); 
   } else {                              // microcontroller runs @ 3.3V
@@ -43,8 +43,8 @@ void loop()  {
 //  Serial.print("Z:  "); Serial.print(SZ); Serial.print("   ");Serial.print("");
 //  Serial.print("Net g:  "); Serial.println(sqrt(SX*SX+SY*SY+SZ*SZ)/1000);
 
-  Serial.print("rawZ:  ");Serial.print(rawZ);Serial.print("   ");
-  Serial.print("SZ:    ");Serial.print(SZ);Serial.println("");
+  Serial.print("rawX:  ");Serial.print(rawX);Serial.print("   ");
+  Serial.print("SX:    ");Serial.print(SX);Serial.println("");
   
   delay(1000/rate);
 }
