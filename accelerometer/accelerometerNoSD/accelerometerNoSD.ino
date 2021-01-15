@@ -1,6 +1,6 @@
 /*
-
- Specifically for an arduino that operates at 5V logic levels, like the nano.
+/
+/  Specifically for an arduino that operates at 5V logic levels, like the nano.
 */
 
 
@@ -9,24 +9,18 @@
 
 
 int scale = 1000;                       // Accelerometer range 3000 milli-g
-int rate = 20;                           // How many samples per second to take (Hz)
+int rate = 20;                          // How many samples per second to take (Hz)
 int rawX, rawY, rawZ;
 float SX, SY, SZ;                       // Scaled values for each axis
 
 
-void setup() {                        
-
+void setup() {                       
   Serial.begin(9600);                   // Open serial communications and wait for port to open:
   while (!Serial){}                     // wait for serial port to connect.
-  
-  // pinMode(10, OUTPUT);
-  // digitalWrite(10, HIGH);            //requirement for Arduino logic; value may be 4 for some boards
-  
 }
 
 
 void loop()  {                         
-
   rawX = analogRead(A0);                // Raw accelerometer data for each axis
   rawY = analogRead(A1);                // Converts input voltage from 0V-MaxV to int 0-1023
   rawZ = analogRead(A2);                //   but accelerometer only outputs 0-3.3V

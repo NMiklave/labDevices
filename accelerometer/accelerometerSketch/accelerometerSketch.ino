@@ -5,30 +5,27 @@
 File Data;                                        // declaration for the data file as Data
 int scale = 1000;                                 // accelerometer range  expressed as +/- 1000 milli-g
 int rate = 2;                                     // How many samples per second to take (Hz)
+int rawX, rawY, rawZ;                             // Variables for the 3 axis analog reads
 float SX, SY, SZ;                                 // Scaled values for each axis
-boolean micro_is_5V = true;
 
 
-void setup() {                                    // define conditions and parameters
+void setup() {
   Serial.begin(9600);                             // Open serial communications and wait for port to open:
   while (!Serial){                                // wait for serial port to connect.
   }
   Serial.print("Initializing SD card...");
   
-  // pinMode(10, OUTPUT);
-  // digitalWrite(10, HIGH);                      //requirement for Arduino logic; value may be 4 for some boards
-  
   if (!SD.begin(10)) {
     Serial.println("initialization failed!");
+    Serial.println("Restart to try again.");
     while (1);
   }
-
-  Serial.println("Initialization done.");
-  Data = SD.open("Accel.txt", FILE_WRITE);        // defines Accel.txt as name of data file
+  Serial.println("initialization done.");
+ 
+  Data = SD.open("Accel.csv", FILE_WRITE);        // defines Accel.csv as name of data file
 
   if (Data) {
-    Serial.print("Header Accel");
-    Data.println("Data are listed as x, y, z");   // header for all subsequent data
+    Data.println("SX [milli-g], SY [milli-g], SZ [milli-g], g");   // header for all subsequent data
     Data.close();                                 // close the file:
   } else {
     Serial.println("Error opening File");         // error message if the file did not open
@@ -36,28 +33,21 @@ void setup() {                                    // define conditions and param
 }
 
 
-void loop()  {                                    // loop runs indefinitely
-
+void loop() {
   Data = SD.open("Accel.txt", FILE_WRITE);        // opens data file ‘Accel.txt’
-  int rawX = analogRead(A0);                      // Raw accelerometer data for each axis
-  int rawY = analogRead(A1);
-  int rawZ = analogRead(A2);
-
-  if (micro_is_5V)  {                             // microcontroller runs @ 5V
-    SX = map(rawX, 298, 411, -scale, scale);      // the measured values 298, 411, will be different for
-    SY = map(rawY, 296, 409, -scale, scale);      // each sensor.
-    SZ = map(rawZ, 296, 430, -scale, scale);
-  } else {                                        // microcontroller runs @ 3.3V
-    SX = map(rawX, 0, 1023, -scale, scale);
-    SY = map(rawY, 0, 1023, -scale, scale);
-    SZ = map(rawZ, 0, 1023, -scale, scale);
-  }
-
-                                                  // Print out raw X,Y,Z accelerometer readings
-  Data.print("X:  "); Data.print(SX); Data.print("   ");
-  Data.print("Y:  "); Data.print(SY); Data.print("   ");
-  Data.print("Z:  "); Data.print(SZ); Data.print("   ");
-  Data.print("Net g:  "); Data.println(sqrt(SX*SX+SY*SY+SZ*SZ)/scale);
+  rawX = analogRead(A0);                          // Raw accelerometer data for each axis
+  rawY = analogRead(A1);
+  rawZ = analogRead(A2);
+ 
+  SX = map(rawX, 273, 410, -scale, scale);      // the measured values 298, 411, will be different for
+  SY = map(rawY, 268, 408, -scale, scale);      // each sensor.
+  SZ = map(rawZ, 281, 418, -scale, scale);
+  
+  // Print out raw X,Y,Z accelerometer readings as well as total acceleration vector
+  Data.print(SX); Data.print(", ");
+  Data.print(SY); Data.print(", ");
+  Data.print(SZ); Data.print(", ");
+  Data.println(sqrt(SX*SX+SY*SY+SZ*SZ)/scale);
   Data.close();                                   // closes file, saves data after each writing cycle
-  delay(rate);
+  delay(1000/rate);
 }
