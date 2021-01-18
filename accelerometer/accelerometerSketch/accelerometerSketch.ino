@@ -4,7 +4,7 @@
 
 File Data;                                        // declaration for the data file as Data
 int scale = 1000;                                 // accelerometer range  expressed as +/- 1000 milli-g
-int rate = 2;                                     // How many samples per second to take (Hz)
+int rate = 10;                                    // How many samples per second to take (Hz)
 int rawX, rawY, rawZ;                             // Variables for the 3 axis analog reads
 float SX, SY, SZ;                                 // Scaled values for each axis
 
@@ -34,7 +34,7 @@ void setup() {
 
 
 void loop() {
-  Data = SD.open("Accel.txt", FILE_WRITE);        // opens data file ‘Accel.txt’
+  Data = SD.open("Accel.csv", FILE_WRITE);        // opens data file ‘Accel.txt’
   rawX = analogRead(A0);                          // Raw accelerometer data for each axis
   rawY = analogRead(A1);
   rawZ = analogRead(A2);

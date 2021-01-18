@@ -14,8 +14,8 @@ void setup() {                                    // define conditions and param
   }
   Serial.print("Initializing SD card...");
   
-  // pinMode(10, OUTPUT);
-  // digitalWrite(10, HIGH);                      //requirement for Arduino logic; value may be 4 for some boards
+//  pinMode(10, OUTPUT);
+//  digitalWrite(10, HIGH);                      //requirement for Arduino logic; value may be 4 for some boards
   
   if (!SD.begin(10)) {
     Serial.println("initialization failed!");
