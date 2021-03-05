@@ -37,8 +37,7 @@ void loop()  {
   timeX = millis();
 
   // Print out accelerometer readings
-//  Serial.print("Time: ");Serial.print(timeX-time0);Serial.print(" ");
-  Serial.print("  rawX: ");Serial.print(averageBuff(rawX));Serial.print(" ");
+  Serial.print("Time: ");Serial.print(timeX-time0);Serial.print(" ");
   Serial.print("  SX: ");Serial.print(SX);Serial.print(" ");
   Serial.print("  SY: ");Serial.print(SY);Serial.print(" ");
   Serial.print("  SZ: ");Serial.print(SZ);Serial.print(" ");
