@@ -11,17 +11,17 @@ float SX, SY, SZ;                                 // Scaled values for each axis
 
 void setup() {
   Serial.begin(9600);                             // Open serial communications and wait for port to open:
-  while (!Serial){                                // wait for serial port to connect.
+  while (!Serial) {                               // wait for serial port to connect.
   }
   Serial.print("Initializing SD card...");
-  
+
   if (!SD.begin(10)) {
     Serial.println("initialization failed!");
     Serial.println("Restart to try again.");
     while (1);
   }
   Serial.println("initialization done.");
- 
+
   Data = SD.open("Accel.csv", FILE_WRITE);        // defines Accel.csv as name of data file
 
   if (Data) {
@@ -38,16 +38,16 @@ void loop() {
   rawX = analogRead(A0);                          // Raw accelerometer data for each axis
   rawY = analogRead(A1);
   rawZ = analogRead(A2);
- 
+
   SX = map(rawX, 273, 410, -scale, scale);      // the measured values 298, 411, will be different for
   SY = map(rawY, 268, 408, -scale, scale);      // each sensor.
   SZ = map(rawZ, 281, 418, -scale, scale);
-  
+
   // Print out raw X,Y,Z accelerometer readings as well as total acceleration vector
   Data.print(SX); Data.print(", ");
   Data.print(SY); Data.print(", ");
   Data.print(SZ); Data.print(", ");
-  Data.println(sqrt(SX*SX+SY*SY+SZ*SZ)/scale);
+  Data.println(sqrt(SX * SX + SY * SY + SZ * SZ) / scale);
   Data.close();                                   // closes file, saves data after each writing cycle
-  delay(1000/rate);
+  delay(1000 / rate);
 }
